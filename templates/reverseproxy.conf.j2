@@ -16,6 +16,7 @@ server {
 }
 
 {% else %}
+{% if item.value.upstreams is defined %}
 upstream {{ item.key }}_backend  {
 {% for upstream in item.value.upstreams %}
     server {{upstream.backend_address}}:{{upstream.backend_port}};
@@ -31,12 +32,14 @@ upstream {{ item.key }}_{{ extra_location }}_backend  {
 }
 {% endfor %}
 {% endif %}
+{% endif %}
 
 server {
    listen         {{ item.value.listen | default(80) }};
    listen    [::]:{{ item.value.listen | default(80) }};
    server_name    {{ item.value.domains | join(' ') }};
 
+{% if item.value.upstreams is defined %}
    location / {
 {% for acl in item.value.acls | default({}) %}
 {% if acl.mode == 'allow' or acl.mode == 'deny' %}
@@ -61,6 +64,7 @@ server {
       auth_basic_user_file /etc/nginx/{{ item.key }}_htpasswd;
 {% endif %}
    }
+{% endif %}
 
 {% if item.value.extra_locations is defined %}
 {% for extra_location in item.value.extra_locations %}

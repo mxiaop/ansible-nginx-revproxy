@@ -34,11 +34,13 @@ server {
 }
 
 {% else %}
+{% if item.value.upstreams is defined %}
 upstream {{ item.key }}_backend  {
 {% for upstream in item.value.upstreams %}
    server {{ upstream.backend_address }}:{{ upstream.backend_port }};
 {% endfor %}
 }
+{% endif %}
 
 {% if item.value.extra_locations is defined %}
 {% for extra_location in item.value.extra_locations %}
@@ -96,6 +98,36 @@ server {
       alias /var/www/{{ item.key }}/.well-known/acme-challenge;
    }
 
+{% if item.value.internal_address is defined %}
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+
+        proxy_redirect off;
+
+        proxy_pass {{ item.value.internal_address }};
+   }
+{% endif %}
+
+{% if item.value.locations is defined %}
+{% for extra_location in item.value.locations %}
+   location {{ extra_location.path }} {
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header Host $http_host;
+      
+      proxy_redirect off;
+
+      proxy_pass {{ extra_location.internal_address }};
+   }
+{% endfor %}
+{% endif %}
+
+{% if item.value.upstreams is defined %}
    location / {
 {% for acl in item.value.acls | default({}) %}
 {% if acl.mode == 'allow' or acl.mode == 'deny' %}
@@ -121,6 +153,7 @@ server {
       auth_basic_user_file /etc/nginx/{{ item.key }}_htpasswd;
 {% endif %}
    }
+{% endif %}
 
 {% if item.value.extra_locations is defined %}
 {% for extra_location in item.value.extra_locations %}
