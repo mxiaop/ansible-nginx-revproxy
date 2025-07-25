@@ -78,7 +78,7 @@ Example Playbook
 ```yaml
   - hosts: all
     roles:
-      - hispanico.nginx_revproxy
+      - mxiaop.ansible-nginx-revproxy
     vars:
       nginx_revproxy_sites:
         default:
@@ -94,6 +94,9 @@ Example Playbook
             - { backend_address: 192.168.0.101, backend_port: 80 }
           ssl: true
           letsencrypt: false
+          locations: # List of dictionaries
+            - path: /download/
+              internal_address: http://152.70.126.206:5244/download/
 ```
 
 License
