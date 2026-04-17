@@ -95,7 +95,7 @@ server {
    ssl_session_cache shared:SSL:10m;
 
 # Redirect non-primary domains to primary domain with 301
-{% if item.value.redirect is defined %}
+{% if item.value.redirect is defined and item.value.redirect %}
    return 301 {{ item.value.redirect }};
 {% endif %}
 
