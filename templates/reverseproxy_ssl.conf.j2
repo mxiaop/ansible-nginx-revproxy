@@ -180,6 +180,11 @@ server {
 {% endif %}
       proxy_set_header        Host $http_host;
       proxy_set_header        X-Real-IP $remote_addr;
+
+      # mingdao
+      proxy_set_header_x_nginx_proxy: true
+      proxy_set_header_upgrade: $http_upgrade
+      proxy_set_header_connection: upgrade
    }
 
 {% endfor %}
