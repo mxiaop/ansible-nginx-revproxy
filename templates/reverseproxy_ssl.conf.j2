@@ -94,6 +94,11 @@ server {
    ssl_prefer_server_ciphers on;
    ssl_session_cache shared:SSL:10m;
 
+# Redirect non-primary domains to primary domain with 301
+{% if item.value.redirect is defined %}
+   return 301 {{ item.value.redirect }}$request_uri;
+{% endif %}
+
    location /.well-known/acme-challenge {
       alias /var/www/{{ item.key }}/.well-known/acme-challenge;
    }
@@ -180,11 +185,6 @@ server {
 {% endif %}
       proxy_set_header        Host $http_host;
       proxy_set_header        X-Real-IP $remote_addr;
-
-      # mingdao
-      proxy_set_header_x_nginx_proxy: true
-      proxy_set_header_upgrade: $http_upgrade
-      proxy_set_header_connection: upgrade
    }
 
 {% endfor %}
