@@ -94,7 +94,6 @@ server {
    ssl_prefer_server_ciphers on;
    ssl_session_cache shared:SSL:10m;
 
-# Redirect non-primary domains to primary domain with 301
 {% if item.value.redirect_url is defined %}
    location / {
    return         301 {{ item.value.redirect_url }};
