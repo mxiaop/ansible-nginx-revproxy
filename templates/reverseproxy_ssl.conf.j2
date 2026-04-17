@@ -96,7 +96,7 @@ server {
 
 # Redirect non-primary domains to primary domain with 301
 {% if item.value.redirect is defined %}
-   return 301 {{ item.value.redirect }}$request_uri;
+   return 301 {{ item.value.redirect }};
 {% endif %}
 
    location /.well-known/acme-challenge {
