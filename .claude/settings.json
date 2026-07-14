@@ -1,13 +1,19 @@
 {
   "enabledPlugins": {
-    "superpowers@superpowers-marketplace": true,
-    "devstd@dev-control": true
+    "devstd@dev-control": true,
+    "superpowers@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "dev-control": {
       "source": {
         "source": "github",
         "repo": "chuhaiji/dev-control"
+      }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
       }
     }
   },
