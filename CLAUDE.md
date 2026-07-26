@@ -19,6 +19,8 @@
 - **文件命名**：新建文件用英文名（`type_topic.md` / `topic-desc.md`，小写 + `-`/`_`，不含中文/空格/特殊字符）；**内容可中文**。存量中文名文件不回改。
 - **工程工作流**：采用 `superpowers` 插件工作流 —— `/brainstorming` → `/writing-plans` → 实现（`/subagent-driven-development`）→ `/test-driven-development` → `/systematic-debugging` → `/requesting-code-review` / `/receiving-code-review`。分层适用见 dev-control `docs/ops/DEV_WORKFLOW_STANDARD.md`。
 - **提交纪律**：宣称"完成"前先跑验证拿证据（`verification-before-completion`）；合并 main 前过一次 code-review。
+- **★ 子代理模型分层（硬规矩·默认执行）**：搜索 / 扫描 / 审计 / 批量机械改动**派子代理去做**，且**必须显式传 `model`**——不传＝继承主会话贵模型白烧额度。搜索查证 / 多文件扫描 → `sonnet`；纯机械（改配置 / 跑脚本 / 批量替换）→ `haiku`。只有架构 / 调试 / 判断类才配 Opus，而那类活主脑自己干、不外包。详见 `devstd:token-efficient-development` §3。
+- **★ 汇报只给结果（默认执行）**：汇报写**结论 / 问题 / 待拍板事项**，**不复述过程**——不列跑了哪些命令、读了哪些文件、分几步查的。工具调用用户自己看得到，不用文字再讲一遍；要细节他会问。
 - **AI 会话**：本仓 `.claude/settings.json` 已订阅 **devstd 频道**（`devstd@dev-control`，跨仓开发标准技能：命名/治理/铁律/UI 探针/提示词/安全红线等，改动只在 dev-control 一处，全仓自动更新）并启用 superpowers（随仓走，云端会话亦加载）；个人/本机专属设置请放 `.claude/settings.local.json`（不提交）。
 
 > 本段由 dev-control 的 `sync-claude.sh` 统一维护，改动请到母本 `templates/claude/CLAUDE.block.md`，勿在本仓手改。
