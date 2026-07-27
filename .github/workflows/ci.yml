@@ -1,12 +1,16 @@
 ---
 
 name: CI
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 'on':
   pull_request:
   push:
     branches:
       - master
-      - feature/*
   schedule:
     - cron: "0 3 * * 5"
 
@@ -20,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
         with:
           path: 'hispanico.nginx-revproxy'
 
@@ -53,7 +57,7 @@ jobs:
           - debian10
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
         with:
           path: 'hispanico.nginx-revproxy'
 
